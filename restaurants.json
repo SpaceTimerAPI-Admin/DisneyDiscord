@@ -1,0 +1,62 @@
+[
+  {
+    "name": "'Ohana",
+    "slug": "ohana",
+    "location": "Magic Kingdom Resort Area"
+  },
+  {
+    "name": "Be Our Guest Restaurant",
+    "slug": "be-our-guest-restaurant",
+    "location": "Magic Kingdom"
+  },
+  {
+    "name": "Cinderella's Royal Table",
+    "slug": "cinderellas-royal-table",
+    "location": "Magic Kingdom"
+  },
+  {
+    "name": "California Grill",
+    "slug": "california-grill",
+    "location": "Contemporary Resort"
+  },
+  {
+    "name": "Chef Mickey's",
+    "slug": "chef-mickeys",
+    "location": "Contemporary Resort"
+  },
+  {
+    "name": "Space 220 Restaurant",
+    "slug": "space-220-restaurant",
+    "location": "EPCOT"
+  },
+  {
+    "name": "Le Cellier Steakhouse",
+    "slug": "le-cellier-steakhouse",
+    "location": "EPCOT"
+  },
+  {
+    "name": "Rose & Crown Dining Room",
+    "slug": "rose-and-crown-dining-room",
+    "location": "EPCOT"
+  },
+  {
+    "name": "Hollywood Brown Derby",
+    "slug": "hollywood-brown-derby",
+    "location": "Hollywood Studios"
+  },
+  {
+    "name": "50's Prime Time Caf\u00e9",
+    "slug": "50s-prime-time-cafe",
+    "location": "Hollywood Studios"
+  },
+  {
+    "name": "Yak & Yeti Restaurant",
+    "slug": "yak-and-yeti-restaurant",
+    "location": "Animal Kingdom"
+  },
+  {
+    "name": "Tiffins Restaurant",
+    "slug": "tiffins-restaurant",
+    "location": "Animal Kingdom"
+  }
+]
