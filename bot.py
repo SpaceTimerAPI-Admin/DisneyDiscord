@@ -1,5 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv()  # this will load from a .env file if available
 
 from slash_commands import setup_slash_commands
 from disney_checker import check_reservations_periodically
@@ -19,6 +17,7 @@ async def on_ready():
     await setup_slash_commands(bot)
     check_reservations_periodically.start(bot)
 
-print(f"DISCORD_BOT_TOKEN present? {'Yes' if os.getenv('DISCORD_BOT_TOKEN') else 'No'}")
-
-bot.run(os.getenv("DISCORD_BOT_TOKEN"))
+token = os.getenv("DISCORD_BOT_TOKEN")
+if not token:
+    print("DISCORD_BOT_TOKEN not found!")
+bot.run(token)
