@@ -76,8 +76,7 @@ async def check_availability():
             date = entry['date']
             time_range = entry['time_range']
             print(f"Checking for {restaurant} on {date} between {time_range}")
-            await user.send(f"🎉 Reservation found for {restaurant} on {date} at 6:10 PM!
-Book here: https://disneyworld.disney.go.com/dining/")
+            await user.send(f"🎉 Reservation found for {restaurant} on {date} at 6:10 PM! Book here: https://disneyworld.disney.go.com/dining/")
 
 keep_alive()
 bot.run(TOKEN)
