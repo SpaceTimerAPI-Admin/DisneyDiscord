@@ -5,7 +5,7 @@ from discord.ext import tasks
 import asyncio
 import json
 import os
-from restaurant_scraper import scrape_restaurants
+from restaurant_scraper import get_all_restaurants
 
 ALL_RESTAURANTS = []
 
