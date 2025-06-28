@@ -1,6 +1,5 @@
-
 from discord.ext import tasks
 
-@tasks.loop(minutes=5)
+@tasks.loop(seconds=60)
 async def check_reservations_periodically(bot):
-    pass  # Placeholder for actual reservation check logic
+    pass  # Placeholder for your real reservation check logic
