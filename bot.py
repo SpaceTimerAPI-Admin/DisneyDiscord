@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()  # this will load from a .env file if available
 
 from slash_commands import setup_slash_commands
 from disney_checker import check_reservations_periodically
