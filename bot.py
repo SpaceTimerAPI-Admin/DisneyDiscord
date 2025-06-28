@@ -1,22 +1,19 @@
-import discord
-from discord.ext import commands, tasks
-from restaurants_scraper import scrape_and_save_restaurants
-from slash_commands import register_slash_commands
+from slash_commands import setup_slash_commands
 from disney_checker import check_reservations_periodically
+from discord.ext import commands
+import discord
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
-TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 
 intents = discord.Intents.default()
-client = commands.Bot(command_prefix="!", intents=intents)
+intents.messages = True
+intents.guilds = True
 
-@client.event
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+@bot.event
 async def on_ready():
-    print(f"🤖 Logged in as {client.user}")
-    scrape_and_save_restaurants()
-    await register_slash_commands(client)
-    check_reservations_periodically.start(client)
+    print(f"🤖 Logged in as {bot.user}")
+    await setup_slash_commands(bot)
+    check_reservations_periodically.start(bot)
 
-client.run(TOKEN)
+bot.run(os.getenv("DISCORD_BOT_TOKEN"))
