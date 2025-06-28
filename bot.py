@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from discord.ext import commands
 import discord
 import os
