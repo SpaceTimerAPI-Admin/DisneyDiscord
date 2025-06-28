@@ -25,6 +25,6 @@ async def check_reservations_periodically(client):
                 user = await client.fetch_user(int(user_id))
                 if user:
                     await user.send(
-                        f"🎉 Reservation found for **{restaurant}** on {date} at {time}!
-Book now: https://disneyworld.disney.go.com/dining/{slug}/availability/?partySize={party}&date={date}&time={time}"
+                        f"🎉 Reservation found for **{restaurant}** on {date} at {time}!\n"
+                        f"🔗 Book now: https://disneyworld.disney.go.com/dining/{slug}/availability/?partySize={party}&date={date}&time={time}"
                     )
