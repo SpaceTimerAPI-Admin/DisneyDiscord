@@ -1,10 +1,9 @@
 import discord
-from discord import app_commands  # ✅ Required for CommandTree
+from discord import app_commands
 from discord.ext import tasks
 import asyncio
 from rapidfuzz import process
-
-from restaurant_scraper import get_all_restaurants  # Make sure this exists and works
+from restaurant_scraper import get_all_restaurants
 
 latest_restaurants = []
 
@@ -15,8 +14,8 @@ async def refresh_restaurants():
     latest_restaurants = await get_all_restaurants()
     print(f"✅ Loaded {len(latest_restaurants)} restaurants.")
 
-async def setup_slash_commands(bot):
-    tree = app_commands.CommandTree(bot)
+async def setup_slash_commands(bot: discord.Client):
+    tree = bot.tree  # ✅ Use the bot's existing CommandTree
 
     @tree.command(name="request", description="Request a Disney Dining Alert")
     async def request(interaction: discord.Interaction):
