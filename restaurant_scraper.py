@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 from bs4 import BeautifulSoup
 
@@ -6,36 +7,40 @@ SCRAPINGBEE_API_KEY = os.getenv("SCRAPINGBEE_API_KEY") or "EMEI1DXWK2PWVG79U2GH6
 URL = "https://disneyworld.disney.go.com/dining/"
 
 def _fetch_restaurants():
-    try:
-        response = requests.get(
-            "https://app.scrapingbee.com/api/v1/",
-            params={
-                "api_key": SCRAPINGBEE_API_KEY,
-                "url": URL,
-                "render_js": "true",
-                "block_resources": "false",
-                "stealth_proxy": "true"
-            },
-            timeout=30  # ← Critical to prevent hanging
-        )
+    print("⏳ Starting ScrapingBee request...")
+    start = time.time()
 
-        if response.status_code != 200:
-            raise Exception(f"ScrapingBee failed: {response.status_code} - {response.text}")
-        
-        return response.text
+    response = requests.get(
+        "https://app.scrapingbee.com/api/v1/",
+        params={
+            "api_key": SCRAPINGBEE_API_KEY,
+            "url": URL,
+            "render_js": "true",
+            "block_resources": "false",
+            "stealth_proxy": "true"
+        },
+    )
 
-    except requests.exceptions.Timeout:
-        raise Exception("⏰ ScrapingBee request timed out")
-    except requests.exceptions.RequestException as e:
-        raise Exception(f"🚨 ScrapingBee request failed: {e}")
+    end = time.time()
+    print(f"✅ ScrapingBee response received in {end - start:.2f} seconds")
+
+    if response.status_code != 200:
+        raise Exception(f"❌ ScrapingBee failed: {response.status_code} - {response.text}")
+    
+    return response.text
 
 def get_all_restaurants():
+    print("🔍 Parsing restaurant list...")
+    start = time.time()
+
     html = _fetch_restaurants()
     soup = BeautifulSoup(html, "html.parser")
     cards = soup.select(".cardName")
     restaurants = [card.get_text(strip=True) for card in cards]
+
+    end = time.time()
+    print(f"✅ Parsed {len(restaurants)} restaurants in {end - start:.2f} seconds")
     return restaurants
 
 if __name__ == "__main__":
-    for name in get_all_restaurants():
-        print(name)
+    get_all_restaurants()
