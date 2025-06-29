@@ -1,16 +1,19 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 
-SCRAPINGBEE_API_KEY = "EMEI1DXWK2PWVG79U2GH6AAWSSMX0N41S246I8TERDCODDVS6L6BLR2V1U197C26ND2UUYCS1L9XFKRH"
+SCRAPINGBEE_API_KEY = os.getenv("SCRAPINGBEE_API_KEY") or "EMEI1DXWK2PWVG79U2GH6AAWSSMX0N41S246I8TERDCODDVS6L6BLR2V1U197C26ND2UUYCS1L9XFKRH"
 URL = "https://disneyworld.disney.go.com/dining/"
 
 def _fetch_restaurants():
     response = requests.get(
-        "https://app.scrapingbee.com/api/v1",
+        "https://app.scrapingbee.com/api/v1/",
         params={
             "api_key": SCRAPINGBEE_API_KEY,
             "url": URL,
-            "render_js": "true"  # Ensure JS is rendered
+            "render_js": "true",
+            "block_resources": "false",
+            "stealth_proxy": "true"
         },
     )
 
