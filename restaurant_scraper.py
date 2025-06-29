@@ -1,28 +1,31 @@
 import requests
-import time
-import os
+import datetime
 
-# This is Disney's JSON API endpoint for all dining locations
-URL = "https://disneyworld.disney.go.com/cms/api/v4/disney-dining-locations/"
+DISNEY_DINING_API = (
+    "https://disneyworld.disney.go.com/finder/api/v1/explorer-service/"
+    "list-ancestor-entities/wdw/80007798;entityType=destination/{date}/dining"
+)
+
 
 def get_all_restaurants():
-    print("🔄 Fetching Disney dining JSON...")
-    start = time.time()
+    today = datetime.date.today().isoformat()
+    url = DISNEY_DINING_API.format(date=today)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    }
 
-    try:
-        response = requests.get(URL)
-        response.raise_for_status()
-        data = response.json()
-    except Exception as e:
-        print(f"❌ Failed to fetch dining data: {e}")
-        return []
+    print(f"🌐 Requesting Disney Dining API: {url}")
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
 
-    restaurants = [item["name"] for item in data if "name" in item]
+    data = response.json()
 
-    end = time.time()
-    print(f"✅ Loaded {len(restaurants)} restaurants in {end - start:.2f} seconds")
+    restaurants = [entry["name"] for entry in data if "name" in entry]
+    print(f"✅ Retrieved {len(restaurants)} restaurants from Disney API.")
     return restaurants
 
+
 if __name__ == "__main__":
-    for name in get_all_restaurants():
+    all_names = get_all_restaurants()
+    for name in all_names:
         print(name)
