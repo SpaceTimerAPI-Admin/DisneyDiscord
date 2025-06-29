@@ -8,7 +8,17 @@ async def _fetch_restaurants():
     async with async_playwright() as p:
         browser = await p.chromium.launch(
             headless=True,
-            args=["--no-sandbox"]  # ✅ Important for Render compatibility
+            args=[
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-setuid-sandbox",
+                "--disable-gpu",
+                "--single-process",
+                "--no-zygote",
+                "--disable-software-rasterizer",
+                "--disable-features=site-per-process",
+                "--enable-features=NetworkService,NetworkServiceInProcess"
+            ]
         )
         page = await browser.new_page()
         await page.goto(URL, timeout=60000)
