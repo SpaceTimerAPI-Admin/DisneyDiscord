@@ -41,11 +41,26 @@ def get_all_restaurants():
     print("📄 HTML content written to scrapingbee_output.html")
 
     soup = BeautifulSoup(html, "html.parser")
-    cards = soup.select(".cardName")
-    restaurants = [card.get_text(strip=True) for card in cards]
+
+    # 🧪 Diagnostic logging: show divs and links
+    print("\n🧪 Sample divs with classes:")
+    for div in soup.find_all("div", class_=True)[:10]:
+        print(" -", div.get("class"))
+
+    print("\n🧪 Sample links (<a>):")
+    for a in soup.find_all("a", href=True)[:10]:
+        print(" -", a.get_text(strip=True), "|", a["href"])
+
+    # 🧪 TEMP fallback: collect dining-related links
+    cards = soup.select("a")
+    restaurants = [
+        card.get_text(strip=True)
+        for card in cards
+        if "dining" in card.get("href", "") and card.get_text(strip=True)
+    ]
 
     end = time.time()
-    print(f"✅ Parsed {len(restaurants)} restaurants in {end - start:.2f} seconds")
+    print(f"\n✅ Parsed {len(restaurants)} possible restaurants in {end - start:.2f} seconds")
     return restaurants
 
 if __name__ == "__main__":
