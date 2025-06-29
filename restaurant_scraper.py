@@ -3,14 +3,10 @@ from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 
 URL = "https://disneyworld.disney.go.com/dining/"
-CHROMIUM_PATH = "/opt/render/.cache/ms-playwright/chromium-1179/chrome-linux/chrome"  # 👈 Full browser path
 
 async def _fetch_restaurants():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=True,
-            executable_path=CHROMIUM_PATH  # 👈 Explicit path for Render compatibility
-        )
+        browser = await p.chromium.launch(headless=True)  # ← Don't override the path
         page = await browser.new_page()
         await page.goto(URL, timeout=60000)
         await page.wait_for_selector(".cardName", timeout=60000)
