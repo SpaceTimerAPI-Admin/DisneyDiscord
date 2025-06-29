@@ -6,7 +6,10 @@ URL = "https://disneyworld.disney.go.com/dining/"
 
 async def _fetch_restaurants():
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)  # ← Don't override the path
+        browser = await p.chromium.launch(
+            headless=True,
+            args=["--no-sandbox"]  # ✅ Important for Render compatibility
+        )
         page = await browser.new_page()
         await page.goto(URL, timeout=60000)
         await page.wait_for_selector(".cardName", timeout=60000)
