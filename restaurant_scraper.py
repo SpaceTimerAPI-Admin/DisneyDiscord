@@ -34,6 +34,12 @@ def get_all_restaurants():
     start = time.time()
 
     html = _fetch_restaurants()
+
+    # 💾 Save raw HTML for inspection
+    with open("scrapingbee_output.html", "w", encoding="utf-8") as f:
+        f.write(html)
+    print("📄 HTML content written to scrapingbee_output.html")
+
     soup = BeautifulSoup(html, "html.parser")
     cards = soup.select(".cardName")
     restaurants = [card.get_text(strip=True) for card in cards]
