@@ -21,15 +21,6 @@ async def refresh_restaurants():
 async def setup_slash_commands(bot: discord.Client):
     tree = bot.tree
 
-    # Initial load before loop starts
-    global latest_restaurants
-    try:
-        print("🌐 Initial restaurant list loading...", flush=True)
-        latest_restaurants = get_all_restaurants()
-        print(f"✅ Loaded {len(latest_restaurants)} restaurants initially.", flush=True)
-    except Exception as e:
-        print(f"❌ Initial restaurant list failed to load: {e}", flush=True)
-
     @tree.command(name="request", description="Request a Disney Dining Alert")
     async def request(interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=True)
