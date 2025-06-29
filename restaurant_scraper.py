@@ -6,21 +6,28 @@ SCRAPINGBEE_API_KEY = os.getenv("SCRAPINGBEE_API_KEY") or "EMEI1DXWK2PWVG79U2GH6
 URL = "https://disneyworld.disney.go.com/dining/"
 
 def _fetch_restaurants():
-    response = requests.get(
-        "https://app.scrapingbee.com/api/v1/",
-        params={
-            "api_key": SCRAPINGBEE_API_KEY,
-            "url": URL,
-            "render_js": "true",
-            "block_resources": "false",
-            "stealth_proxy": "true"
-        },
-    )
+    try:
+        response = requests.get(
+            "https://app.scrapingbee.com/api/v1/",
+            params={
+                "api_key": SCRAPINGBEE_API_KEY,
+                "url": URL,
+                "render_js": "true",
+                "block_resources": "false",
+                "stealth_proxy": "true"
+            },
+            timeout=30  # ← Critical to prevent hanging
+        )
 
-    if response.status_code != 200:
-        raise Exception(f"ScrapingBee failed: {response.status_code} - {response.text}")
-    
-    return response.text
+        if response.status_code != 200:
+            raise Exception(f"ScrapingBee failed: {response.status_code} - {response.text}")
+        
+        return response.text
+
+    except requests.exceptions.Timeout:
+        raise Exception("⏰ ScrapingBee request timed out")
+    except requests.exceptions.RequestException as e:
+        raise Exception(f"🚨 ScrapingBee request failed: {e}")
 
 def get_all_restaurants():
     html = _fetch_restaurants()
