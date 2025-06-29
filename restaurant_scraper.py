@@ -1,31 +1,20 @@
-import requests
-import datetime
+import asyncio
+from playwright.async_api import async_playwright
 
-DISNEY_DINING_API = (
-    "https://disneyworld.disney.go.com/finder/api/v1/explorer-service/"
-    "list-ancestor-entities/wdw/80007798;entityType=destination/{date}/dining"
-)
+async def get_all_restaurants():
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        page = await browser.new_page()
+        await page.goto("https://disneyworld.disney.go.com/dining/", wait_until="networkidle")
 
+        await page.wait_for_selector(".cardName", timeout=10000)
+        elements = await page.query_selector_all(".cardName")
+        restaurants = [await el.inner_text() for el in elements]
 
-def get_all_restaurants():
-    today = datetime.date.today().isoformat()
-    url = DISNEY_DINING_API.format(date=today)
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-    }
-
-    print(f"🌐 Requesting Disney Dining API: {url}")
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
-
-    data = response.json()
-
-    restaurants = [entry["name"] for entry in data if "name" in entry]
-    print(f"✅ Retrieved {len(restaurants)} restaurants from Disney API.")
-    return restaurants
-
+        await browser.close()
+        return restaurants
 
 if __name__ == "__main__":
-    all_names = get_all_restaurants()
-    for name in all_names:
+    restaurants = asyncio.run(get_all_restaurants())
+    for name in restaurants:
         print(name)
