@@ -11,7 +11,7 @@ latest_restaurants = []
 async def refresh_restaurants():
     global latest_restaurants
     print("🔄 Refreshing restaurant list...")
-    latest_restaurants = await get_all_restaurants()
+    latest_restaurants = get_all_restaurants()  # ✅ No await needed
     print(f"✅ Loaded {len(latest_restaurants)} restaurants.")
 
 async def setup_slash_commands(bot: discord.Client):
